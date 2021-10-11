@@ -1,4 +1,3 @@
-DROP database companydatabase;
 CREATE DATABASE companydatabase;
 USE companydatabase;
 
