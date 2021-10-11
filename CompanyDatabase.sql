@@ -149,7 +149,7 @@ SELECT employees FROM departments WHERE departmentID=504;
 SELECT operationcost FROM departments WHERE departmentID=504;
 
 CREATE TABLE employeesdeleted(
-	employeeID INT,
+	  employeeID INT,
     departmentID INT,
     firstName VARCHAR(100),
     lastName VARCHAR(100),
@@ -202,8 +202,7 @@ SELECT @salary;
 
 DELIMITER //
 CREATE PROCEDURE createemployeeslist (
-	INOUT employeeslist VARCHAR(5000)
-)
+	INOUT employeeslist VARCHAR(5000))
 BEGIN
 	DECLARE finished INTEGER DEFAULT 0;
 	DECLARE employeesname VARCHAR(100) DEFAULT "";
