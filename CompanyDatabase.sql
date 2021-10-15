@@ -27,6 +27,7 @@ CREATE TABLE employees(
  
 ALTER TABLE departments ADD FOREIGN KEY(managerID) REFERENCES employees(employeeID) ON DELETE SET NULL;
 
+-- creating triggers to update the departments table (managers)
 CREATE TRIGGER managerupdatedepartment500 BEFORE UPDATE ON employees FOR EACH ROW
 	UPDATE departments SET managerID=(SELECT employeeID FROM employees WHERE employeerole LIKE '%Manager' AND departmentID=500)
 	WHERE departmentID=500;
@@ -135,6 +136,7 @@ UPDATE employees SET managerID=NULL WHERE employeeID=1;
 
 -- testing triggers, to see if the managers have been updated on the departments table
 SELECT * FROM departments;
+--triggers - for employeed count and the operation cost for running each department (assuming the only cost is labour)
 -- testing tigger employeeoperationcost_delete/ employeecount_delete
 DELETE FROM employees WHERE employeeID=43;
 SELECT operationcost FROM departments WHERE departmentID=504;
@@ -148,6 +150,8 @@ INSERT INTO employees(departmentID, firstName, lastName, sex, employeeRole, date
 SELECT employees FROM departments WHERE departmentID=504;
 SELECT operationcost FROM departments WHERE departmentID=504;
 
+-- deletion table - if an employee leaves (we can store this information in the employee deleted table)
+-- we insert information into this, using the trigger employeesdeletiont
 CREATE TABLE employeesdeleted(
 	  employeeID INT,
     departmentID INT,
@@ -174,6 +178,7 @@ DELIMITER ;
 DELETE FROM employees WHERE employeeID=30;
 SELECT * FROM employeesdeleted;
 
+-- employeeloyalty procedure allows us to see the loyalty of each employee
 DELIMITER //
 CREATE PROCEDURE employeeloyalty(
      IN pemployeeID INT,
@@ -200,6 +205,7 @@ CREATE PROCEDURE totalsalary(IN pdepartmentID INT,
 CALL totalsalary('504', @salary);
 SELECT @salary;
 
+-- cursor - list of employee names
 DELIMITER //
 CREATE PROCEDURE createemployeeslist (
 	INOUT employeeslist VARCHAR(5000))
@@ -226,6 +232,7 @@ SET @employeelist = "";
 CALL createemployeeslist(@employeelist); 
 SELECT @employeelist;
 
+-- employeenames - using a procedure(cursor) to update the table with the first name and last name of each employee 
 CREATE TABLE employeenames(
   Forename VARCHAR(100),
   Surname VARCHAR(100));
